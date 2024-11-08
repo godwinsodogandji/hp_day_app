@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             DatabaseSeederUsers::class,
             DatabaseSeederBirthdays::class,
             DatabaseSeederNotifications::class,
+            DatabaseSeederFriends::class,
             // DatabaseSeederEmails::class,
-            // DatabaseSeederFriends::class,
             // DatabaseSeederProfiles::class,
             // DatabaseSeederSettings::class,
         ]);
