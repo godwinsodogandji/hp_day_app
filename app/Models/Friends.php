@@ -12,6 +12,7 @@ class Friends extends Model
     protected $fillable = [
         'user_id',
         'friend_id',
+        'status'
     ];
 
     /**
@@ -19,7 +20,9 @@ class Friends extends Model
      *
      * @return BelongsTo
      */
+        // L'utilisateur qui a envoyé la demande d'ami
     public function user(): BelongsTo
+
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -29,6 +32,8 @@ class Friends extends Model
      *
      * @return BelongsTo
      */
+        // L'utilisateur qui reçoit la demande d'ami
+
     public function friend(): BelongsTo
     {
         return $this->belongsTo(User::class, 'friend_id');

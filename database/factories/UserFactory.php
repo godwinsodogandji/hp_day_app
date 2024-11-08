@@ -29,16 +29,15 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    protected $model = User::class;
     public function definition(): array
     {
         
         return [
             'username' => $this->faker->unique()->userName(), 
             'email' => $this->faker->unique()->safeEmail(), 
-            'email_verified_at' => now(), 
+            
             'password' => static::$password ??= Hash::make('password'), 
-            'remember_token' => Str::random(10), 
+            
             'birthday' => $this->faker->dateTimeBetween('-40 years', '-18 years')->format('Y-m-d'), 
         ];
     }

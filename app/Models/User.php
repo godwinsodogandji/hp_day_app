@@ -42,4 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function friends()
+    {
+        return $this->hasMany(Friends::class, 'user_id');
+    }
+
+    // Relation inverse pour les utilisateurs qui ont ajouté cet utilisateur comme ami
+    public function friendOf()
+    {
+        return $this->hasMany(Friends::class, 'friend_id');
+    }
 }
