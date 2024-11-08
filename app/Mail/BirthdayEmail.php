@@ -32,7 +32,7 @@ class BirthdayEmail extends Mailable
     public function build()
     {
         return $this->subject('Joyeux Anniversaire !') // Sujet
-                    ->view('emails.birthday')  // Vue pour l'email
+                    ->view('email.birthday')  
                     ->with([
                         'username' => $this->user->username, // Passer le nom d'utilisateur
                         'birthday' => $this->user->birthday, // Passer la date d'anniversaire
