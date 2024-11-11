@@ -129,4 +129,5 @@ class FriendsController extends Controller {
     return response()->json(['message' => 'Demande acceptée avec succès.' ] );
         }
 
+        
     }

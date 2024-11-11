@@ -1,7 +1,9 @@
-http://127.0.0.1:8000/users/3/friends::marche
-http://127.0.0.1:8000/users
-http://127.0.0.1:8000/users/1
-http://127.0.0.1:8000/users/1/friends/2::demande dami
+routes qui marchent
+
+http://127.0.0.1:8000/users/3/friends::get recup des amis dun user donné
+http://127.0.0.1:8000/users   _get  recup de touts les users 
+http://127.0.0.1:8000/users/1   get  recuperer un user specifique
+http://127.0.0.1:8000/users/1/friends/2::demande d'amitié
 http://127.0.0.1:8000/users/1/friends/2/accept
 http://127.0.0.1:8000/users/8/suggestions
 http://127.0.0.1:8000/users/1/friends/2
