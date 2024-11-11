@@ -23,23 +23,20 @@ class FriendsController extends Controller {
 
     // fonction d'envoi de demande d'amitié
 
-    public function sendFriendRequest( $user_id, $friend_id ) {
+    public function sendFriendRequest($user_id, $friend_id)
+    {
         try {
-            // Récupérer l'utilisateur courant
             $user = User::findOrFail($user_id);
-    //dd($user);
-            // Vérifier si l'utilisateur est déjà ami avec l'autre utilisateur
+    
             if ($user->friends()->where('friend_id', $friend_id)->exists()) {
                 return response()->json(['message' => 'Vous êtes déjà amis.'], 400);
             }
     
-            // Créer la demande d'ami
-            $user->friends()->attach( $friend_id, [ 'status' => 'pending' ] );
-
-            return response()->json( [ 'message' => 'Demande envoyée avec succès.' ] );
-        } catch ( \Exception $e ) {
-            // Gestion des erreurs
-            return response()->json( [ 'message' => 'Erreur lors de l\'envoi de la demande.', 'error' => $e->getMessage()], 500);
+            $user->friends()->attach($friend_id, ['status' => 'pending']);
+    
+            return response()->json(['message' => 'Demande envoyée avec succès.']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erreur lors de l\'envoi de la demande.', 'error' => $e->getMessage()], 500);
         }
     }
     
@@ -95,39 +92,37 @@ class FriendsController extends Controller {
 
         // fonctions dacceptation de demande
 
-        public function acceptFriendRequest( $user_id, $friend_id ) {
+        public function acceptFriendRequest($user_id, $friend_id) {
             // Récupérer l'utilisateur actuel
-    $user = User::findOrFail($user_id);
-
-    // Vérifier si une demande d'ami en attente existe
-            $friendRequest = DB::table( 'friends' )
-            ->where( 'user_id', $user_id )
-            ->where( 'friend_id', $friend_id )
-            ->where( 'status', 'pending' )
-            ->first();
-
-            // dd($friendRequest);
+            $user = User::findOrFail($user_id);
+        
+            // Vérifier si une demande d'ami en attente existe
+            $friendRequest = DB::table('friends')
+                ->where('user_id', $friend_id) // Demande envoyée par l'ami, donc 'friend_id' en tant qu'utilisateur qui a envoyé
+                ->where('friend_id', $user_id) // et 'user_id' est celui qui la reçoit
+                ->where('status', 'pending')
+                ->first();
+        
             // Si la demande n'existe pas, retournez une erreur
-    if (!$friendRequest) {
-        return response()->json(['message' => 'Pas de requêtes en attente.'], 404);
-    }
-
-    // Mettre à jour le statut de la demande en 'accepted'
-    DB::table('friends')
-        ->where('user_id', $user_id)
-        ->where('friend_id', $friend_id)
-        ->where('status', 'pending')
-        ->update(['status' => 'accepted']);
-
-    // Ajouter la relation inverse (si l'utilisateur accepte, l'autre utilisateur doit aussi avoir le statut 'accepted' pour la relation réciproque)
-    DB::table('friends')
-        ->where('user_id', $user_id)
-        ->where('friend_id', $friend_id)
-        ->where('status', 'pending')
-        ->update(['status' => 'accepted']);
-
-    return response()->json(['message' => 'Demande acceptée avec succès.' ] );
+            if (!$friendRequest) {
+                return response()->json(['message' => 'Pas de requêtes en attente.'], 404);
+            }
+        
+            // Mettre à jour le statut de la demande existante en 'accepted'
+            DB::table('friends')
+                ->where('user_id', $friend_id)
+                ->where('friend_id', $user_id)
+                ->update(['status' => 'accepted']);
+        
+            // Ajouter la relation réciproque
+            DB::table('friends')->insertOrIgnore([
+                'user_id' => $user_id,
+                'friend_id' => $friend_id,
+                'status' => 'accepted'
+            ]);
+        
+            return response()->json(['message' => 'Demande acceptée avec succès.']);
         }
-
+        
         
     }

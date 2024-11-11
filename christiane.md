@@ -1,17 +1,25 @@
 routes qui marchent
 
 http://127.0.0.1:8000/users/3/friends::get recup des amis dun user donné
-http://127.0.0.1:8000/users   _get  recup de touts les users 
+http://127.0.0.1:8000/users  _get  recup de touts les users 
 http://127.0.0.1:8000/users/1   get  recuperer un user specifique
-http://127.0.0.1:8000/users/1/friends/2::demande d'amitié
+http://127.0.0.1:8000/users/3/friends/9::demande d'amitié
 http://127.0.0.1:8000/users/1/friends/2/accept
-http://127.0.0.1:8000/users/8/suggestions
-http://127.0.0.1:8000/users/1/friends/2
+http://127.0.0.1:8000/users/8/suggestions:marche
+http://127.0.0.1:8000/users/1/friends/2:marche searchFriends
+http://127.0.0.1:8000/users/8/friends/7/acceptaccepter demande
 getFriends
 suggestFriends
 searchFriends
 sendFriends
 
+Route::get('/users/{user_id}/friends', [FriendsController::class, 'getFriends']);//recuperer les amis d'un user donné
+Route::get('/users/{user_id}/suggestions', [FriendsController::class, 'suggestFriends']);//suggestions d'amis
+Route::get('/users/{user_id}/friends/{friend_id}', [FriendsController::class, 'searchFriends']);//recherch damis specifique
+Route::post('/users/{user_id}/friends/{friend_id}', 
+[FriendsController::class, 'sendFriendRequest']);//envoi de demande d'amitié
+Route::put('/users/{user_id}/friends/{friend_id}/accept',
+ [FriendsController::class, 'acceptFriendRequest']); // Accepter une demande d'amitié
 
 Pour tester vos méthodes d'ajout et d'acceptation de demandes d'amis, vous pouvez utiliser **Postman** ou tout autre outil pour faire des requêtes HTTP vers votre API. Voici les étapes pour tester ces méthodes via Postman :
 
