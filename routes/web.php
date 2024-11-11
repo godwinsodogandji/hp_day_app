@@ -26,8 +26,10 @@ Route::get('/dashboard', function () {
 Route::get('/users/{user_id}/friends', [FriendsController::class, 'getFriends']);//recuperer les amis d'un user donné
 Route::get('/users/{user_id}/suggestions', [FriendsController::class, 'suggestFriends']);//suggestions d'amis
 Route::get('/users/{user_id}/friends/{friend_id}', [FriendsController::class, 'searchFriends']);//recherch damis specifique
-Route::post('/users/{user_id}/friends/{friend_id}', [FriendsController::class, 'sendFriendRequest']);//envoi de demande d'amitié
-Route::put('/users/{user_id}/friends/{friend_id}/accept', [FriendsController::class, 'acceptFriendRequest']); // Accepter une demande d'amitié
+Route::post('/users/{user_id}/friends/{friend_id}', 
+[FriendsController::class, 'sendFriendRequest']);//envoi de demande d'amitié
+Route::put('/users/{user_id}/friends/{friend_id}/accept',
+ [FriendsController::class, 'acceptFriendRequest']); // Accepter une demande d'amitié
 
 
 Route::middleware('auth')->group(function () {
