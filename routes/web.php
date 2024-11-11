@@ -7,7 +7,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -15,7 +14,15 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware('guest'); // Protéger la page d'accueil pour les utilisateurs non authentifiés
+
+Route::get('/register', function () {
+    return Inertia::render('Auth/Register');
+})->middleware('guest')->name('register'); // Protéger la route d'inscription
+
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login');
+})->middleware('guest')->name('login'); // Protéger la route de connexion
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -28,10 +35,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Routes pour le profil
-Route::get('/profile', [ProfilesController::class, 'edit'])->name('profile.edit'); // Afficher le formulaire d'édition du profil
-Route::patch('/profile', [ProfilesController::class, 'update'])->name('profile.update'); // Mettre à jour le profil
-Route::delete('/profile', [ProfilesController::class, 'destroy'])->name('profile.destroy'); // Supprimer le profil
+
 
 // Routes pour l'utilisateur
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
