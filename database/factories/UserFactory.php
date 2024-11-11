@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -33,12 +34,14 @@ class UserFactory extends Factory
     {
         
         return [
+
             'username' => $this->faker->unique()->userName(), 
             'email' => $this->faker->unique()->safeEmail(), 
             
             'password' => static::$password ??= Hash::make('password'), 
             
             'birthday' => $this->faker->dateTimeBetween('-40 years', '-18 years')->format('Y-m-d'), 
+
         ];
     }
 
