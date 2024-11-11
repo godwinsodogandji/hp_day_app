@@ -25,19 +25,6 @@ const sendEmail = () => {
 const changeTheme = () => {
     document.body.className = selectedTheme.value;
 };
-
-// Initialiser l'animation Lottie
-// onMounted(() => {
-//     upcomingBirthdays.value.forEach(friend => {
-//         lottie.loadAnimation({
-//             container: document.querySelector(`.lottie-animation:nth-of-type(${friend.id})`),
-//             renderer: 'svg',
-//             loop: true,
-//             autoplay: true,
-//             path: '/path/to/your/animation.json' // Remplacez par le chemin de votre fichier JSON
-//         });
-//     });
-// });
 </script>
 
 <template>
@@ -184,7 +171,7 @@ const changeTheme = () => {
 
                 <!-- Section des anniversaires  du jour -->
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Anniversaires du jour</h2>
+                    <h2 class="text-2xl font-semibold mb-2">Anniversaires à venir</h2>
                     <div class="flex gap-4 justify">
                         <div v-for="friend in upcomingBirthdays" :key="friend.id"
                             class="w-[200px] pt-0 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -228,7 +215,7 @@ const changeTheme = () => {
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ friend.birthday }}</span>
                                 <div class="flex mt-4 md:mt-6">
                                     <button
-                                        class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Souhaiter</button>
+                                        class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Ajouter</button>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +224,7 @@ const changeTheme = () => {
 
                 <!-- Souhaiter un bon anniversaire -->
                 <div class="text-center mt-8">
-                    <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif;">🎂 Souhaitez-vous un Joyeux Anniversaire ! 🎂</h2>
+                    <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif;">🎂 Qui garde son âme d'enfant ne vieillit jamais. Pensez à vos proches ! 🎂</h2>
                 </div>
             </div>
         </div>

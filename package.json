@@ -21,6 +21,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "lottie": "^0.0.1",
         "lottie-web": "^5.12.2"
     }
 }
