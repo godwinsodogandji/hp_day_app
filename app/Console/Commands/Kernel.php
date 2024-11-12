@@ -7,7 +7,7 @@ use App\Mail\BirthdayReminderMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
-class Kernel extends ConsoleKernel
+class CommandKernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
@@ -18,9 +18,7 @@ class Kernel extends ConsoleKernel
                 ->where('notification_sent', false)
                 ->get();
 
-            // \Log::info('Checking for upcoming birthdays...');
-            // \Log::info('Found ' . $upcomingBirthdays->count() . ' upcoming birthdays.');
-
+    
             // Envoyer les rappels pour chaque anniversaire
             foreach ($upcomingBirthdays as $birthday) {
                 $user = $birthday->user;

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\BirthdayController;
@@ -26,7 +25,11 @@ Route::get('/login', function () {
 })->middleware('guest')->name('login'); // Protéger la route de connexion
 
 
-Route::get('/upcoming-birthdays', [BirthdayController::class, 'getUpcomingBirthdays']);
+// Récupérer les anniversaires à venir (API ou action backend)
+Route::get('/upcoming-birthdays-data', [BirthdayController::class, 'getUpcomingBirthdays']);
+
+// Afficher les anniversaires à venir (pour la vue)
+Route::get('/upcoming-birthdays', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
 
 
 Route::get('/dashboard', function () {

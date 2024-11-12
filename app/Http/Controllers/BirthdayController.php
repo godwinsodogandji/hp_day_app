@@ -30,7 +30,8 @@ class BirthdayController extends Controller
 public function showUpcomingBirthdays()
 {
     $upcomingBirthdays = $this->getUpcomingBirthdays();
-    return response()->json($upcomingBirthdays);
+    return view('upcoming_birthdays', compact('upcomingBirthdays'));
+    // return response()->json($upcomingBirthdays);
 }
 
 
@@ -43,7 +44,7 @@ public function sendBirthdayReminder($user, $birthday)
     ];
 
     // Envoi de l'email
-    Mail::send('emails.birthday_reminder', $data, function ($message) use ($user) {
+    Mail::send('birthday_reminder', $data, function ($message) use ($user) {
         $message->to($user->email)
                 ->subject("Rappel : L'anniversaire de votre ami(e) est demain !");
     });
