@@ -77,7 +77,6 @@ onMounted(() => {
 
             <Aside></Aside>
 
-            
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6 overflow-hidden">
                 <h1 class="text-3xl font-bold mb-4 text-center animate-slide-left"
                     style="font-family: 'Charme', sans-serif">
@@ -141,12 +140,11 @@ onMounted(() => {
                                 </h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ friend.birthday }}</span>
                                 <div class="flex mt-4 md:mt-6">
-                                    <router-link to="#">aa</router-link>
-
-                                    <a href="souhaiter/{friendId}"
+                                    <router-link
+                                        :to="{ name: 'souhaiter.joyeux-anniversaire', params: { friendId: friend.id } }"
                                         class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
                                         Souhaiter
-                                    </a>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
