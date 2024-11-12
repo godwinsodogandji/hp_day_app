@@ -10,7 +10,7 @@ class EmailsController extends Controller
       public function index()
     {
        
-        return Inertia::render('AnniversaireCard');
+        return Inertia::render('Email/Index');
 
     }
     public function card1()

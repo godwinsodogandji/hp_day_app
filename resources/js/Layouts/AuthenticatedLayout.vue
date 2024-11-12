@@ -42,8 +42,8 @@ onMounted(() => {
                                     Dashboard
                                 </NavLink>
                                 <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :href="route('mail')"
+                                    :active="route().current('mail')"
                                 >
                                     Mail
                                 </NavLink>
