@@ -375,7 +375,7 @@ onMounted(() => {
                                     <button
                                         class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                     >
-                                        Souhaiter
+                                      Souhaiter
                                     </button>
                                 </div>
                             </div>
