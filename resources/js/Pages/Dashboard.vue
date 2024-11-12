@@ -28,6 +28,22 @@ const changeTheme = () => {
 };
 
 
+onMounted(() => {
+    lottie.loadAnimation({
+        container: document.getElementById('lottie-animation'),
+        renderer: 'svg',
+        loop: true, // Changez à false si vous ne voulez pas que l'animation boucle
+        autoplay: true,
+        path: '/animations/Animation - 1731410185826 (1).json' // Chemin vers votre animation JSON
+    });
+    lottie.loadAnimation({
+        container: document.getElementById('lottie-animation-2'),
+        renderer: 'svg',
+        loop: true, // Changez à false si vous ne voulez pas que l'animation boucle
+        autoplay: true,
+        path: '/animations/Animation - 1731410185826 (1).json' // Chemin vers votre animation JSON
+    });
+});
 </script>
 
 <template>
@@ -175,7 +191,17 @@ const changeTheme = () => {
 
                 <!-- Section des anniversaires du jour -->
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2 " style="font-family: 'LoversQuarrel', sans-serif;">Anniversaires du jour <img src="/icons/icon8.svg"></h2>
+                    <div class="flex items-center ">
+        <!-- Conteneur pour l'animation Lottie -->
+        <div id="lottie-animation" class="w-16 h-16 text-2xl font-semibold mb-2"></div>
+        
+        <!-- Titre -->
+        <h2 class="text-2xl font-semibold mb-2" style="font-family: 'LoversQuarrel', sans-serif;">
+            Anniversaires du jour
+        </h2>
+        <!-- Conteneur pour l'animation Lottie -->
+        <div id="lottie-animation2" class="w-16 h-16 text-2xl font-semibold mb-2"></div>
+    </div>
                     <div class="flex gap-4 justify">
                         <div v-for="friend in upcomingBirthdays" :key="friend.id"
                             class="w-[200px] pt-0 max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
