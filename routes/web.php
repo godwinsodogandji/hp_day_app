@@ -33,7 +33,7 @@ Route::get('/login', function () {
 Route::get('/upcoming-birthdays-data', [BirthdayController::class, 'getUpcomingBirthdays']);
 
 // Afficher les anniversaires à venir (pour la vue)
-Route::get('/upcoming-birthdays', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
+Route::get('/upcoming-birthday', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
 
 
 Route::get('/dashboard', function () {

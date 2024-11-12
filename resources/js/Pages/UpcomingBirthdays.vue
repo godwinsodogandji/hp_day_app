@@ -214,8 +214,8 @@ const changeTheme = () => {
                                 </h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ friend.birthday }}</span>
                                 <div class="flex mt-4 md:mt-6">
-                                    <button
-                                        class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Ajouter</button>
+                                    <!-- <button
+                                        class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Ajouter</button> -->
                                 </div>
                             </div>
                         </div>
