@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EmailsController;
+use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\UserController;
@@ -27,6 +29,21 @@ Route::get('/login', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/mail', [EmailsController::class, 'index'])->name('email.birthday');
+
+Route::get('/card1', [EmailsController::class, 'card1']);
+Route::get('/card2', [EmailsController::class, 'card2']);
+Route::get('/card3', [EmailsController::class, 'card3']);
+Route::get('/card4', [EmailsController::class, 'card4']);
+
+
+
+Route::get('/invitation', [InvitationsController::class, 'index']);
+
+Route::get('/add', [InvitationsController::class, 'add']);
+Route::get('/valide', [InvitationsController::class, 'valide']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
