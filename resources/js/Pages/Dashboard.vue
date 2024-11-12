@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head,Link } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
 import lottie from "lottie-web";
 // État pour gérer l'ouverture/fermeture de l'aside
@@ -372,12 +372,11 @@ onMounted(() => {
                                     >{{ friend.birthday }}</span
                                 >
                                 <div class="flex mt-4 md:mt-6">
-                                    <Link
-                                        href="/mail"
+                                    <button
                                         class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                                     >
                                         Souhaiter
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
