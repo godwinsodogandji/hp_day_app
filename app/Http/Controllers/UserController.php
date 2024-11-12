@@ -11,20 +11,20 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function getAllUsers(): JsonResponse
-    {
-        try {
-            $users = User::all();
-            return response()->json(['users' => $users], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Erreur lors de la récupération des utilisateurs.'], 500);
-        }
-    }
-    // public function index()
+    // public function getAllUsers(): JsonResponse
     // {
-    //     $users = User::all();
-    //     return Inertia::render('Users/Index', ['users' => $users]);
+    //     try {
+    //         $users = User::all();
+    //         return response()->json(['users' => $users], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => 'Erreur lors de la récupération des utilisateurs.'], 500);
+    //     }
     // }
+    public function index()
+    {
+        $users = User::paginate(12); // Récupère tous les utilisateurs
+        return inertia('Users/List', ['users' => $users]);
+    }
 
     public function show(User $user)
     {

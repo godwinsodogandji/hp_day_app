@@ -2,18 +2,42 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { defineProps } from 'vue';
+import axios from 'axios';
 // État pour gérer l'ouverture/fermeture de l'aside
 const isAsideOpen = ref(false);
+
+// const upcomingBirthdays = ref([
+//     { id: 1, name: 'David', birthday: '2024-11-25' },
+//     { id: 2, name: 'Eve', birthday: '2024-12-01' }
+// ]);
 
 // Fonction pour basculer l'état de l'aside
 const toggleAside = () => {
     isAsideOpen.value = !isAsideOpen.value;
 };
+const props = defineProps({
+  users: Array
+});
 
-const upcomingBirthdays = ref([
-    { id: 1, name: 'David', birthday: '2024-11-25' },
-    { id: 2, name: 'Eve', birthday: '2024-12-01' },
-]);
+const sendFriendRequest = async (friendId) => {
+  try {
+    const userId = 1; // ID de l'utilisateur actuel
+    console.log(`Envoi de la demande d'ami: ${userId} -> ${friendId}`);
+
+    // Effectuer une requête GET pour envoyer la demande
+    const response = await axios.get(`/users/${userId}/friends/${friendId}`);
+    console.log(response.data.success);
+
+    // Afficher un message de succès
+    alert(response.data.success || 'Demande envoyée avec succès.');
+  } catch (error) {
+    console.error('Erreur lors de l\'envoi de la demande :', error);
+
+    // Gestion des erreurs
+    alert(error.response?.data?.error || 'Une erreur est survenue');
+  }
+};
 
 const customMessage = ref('');
 const selectedTheme = ref('default');
@@ -28,10 +52,10 @@ const changeTheme = () => {
 </script>
 
 <template>
-
+    <AuthenticatedLayout>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
+
         <template #header>
             <div class="flex justify-center space-x-8">
                 <h2 class="text-xl  font-semibold leading-tight text-gray-800">
@@ -96,7 +120,7 @@ const changeTheme = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/users"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -167,7 +191,7 @@ const changeTheme = () => {
 
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
                 <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">🎉 
-                    🎉</h1>
+                   Listes des utilisateurs 🎉</h1>
 
                 <!-- Section des anniversaires  du jour -->
                 <div class="mb-6">
@@ -188,7 +212,9 @@ const changeTheme = () => {
                                 </button>
                                 <!-- Dropdown menu -->
                                 <div id="dropdown"
-                                    class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                
+                                    class="z-10 hidden text-base list-none bg-white 
+                                    divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                     <ul class="py-2" aria-labelledby="dropdownButton">
                                         <li>
                                             <a href="#"
@@ -206,11 +232,13 @@ const changeTheme = () => {
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="flex flex-col items-center p-4">
                                 <img class="w-20 h-20 mb-3 rounded-full shadow-lg"
                                     src="/docs/images/people/profile-picture-3.jpg"
                                     alt="Profile image of {{ friend.name }}" />
-                                <h5 class="mb-1 text-lg font-medium text-gray-900 dark:text-white">{{ friend.name }}
+                                <h5 class="mb-1 text-lg font-medium text-gray-900
+                                 dark:text-white">{{ friend.name }}
                                 </h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ friend.birthday }}</span>
                                 <div class="flex mt-4 md:mt-6">
@@ -221,6 +249,34 @@ const changeTheme = () => {
                         </div>
                     </div>
                 </div>
+
+
+                <div class="p-6">
+      <div class="flex flex-wrap">
+        <!-- Affichage des utilisateurs -->
+        <div v-for="user in users" :key="user.id" class="w-full md:w-1/3 lg:w-1/4 p-4">
+          <div class="bg-white shadow-md rounded-lg p-4 text-center">
+            <!-- Photo de profil -->
+            <img 
+              class="w-20 h-20 mb-3 rounded-full mx-auto" 
+              :src="user.profile_picture_url || '/default-avatar.png'" 
+              :alt="'Photo de profil de ' + user.name" 
+            />
+            <!-- Nom de l'utilisateur -->
+            <h5 class="text-lg font-medium text-gray-900">{{ user.username }}</h5>
+            <!-- Date de naissance -->
+            <p class="text-sm text-gray-500">{{ user.birthday }}</p>
+                        <!-- Boutons d'action -->
+            <div class="flex justify-center mt-4">
+                <button
+                @click="sendFriendRequest(friend.id)"
+                class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-
+                600">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
                 <!-- Souhaiter un bon anniversaire -->
                 <div class="text-center mt-8">
@@ -234,8 +290,8 @@ const changeTheme = () => {
 <style scoped>
 @font-face {
     font-family: 'Charme';
-    src: url('./fonts/Charm-Regular.ttf.ttf') format('truetype'); /* Assurez-vous que le chemin est correct */
-    font-weight: normal;
+    src: url('./fonts/Charm-Regular.ttf.ttf') format('truetype'); 
+        font-weight: normal;
     font-style: normal;
 }
 </style>
