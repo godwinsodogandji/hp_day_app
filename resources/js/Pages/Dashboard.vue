@@ -27,18 +27,7 @@ const changeTheme = () => {
     document.body.className = selectedTheme.value;
 };
 
-// Initialiser l'animation Lottie
-onMounted(() => {
-    upcomingBirthdays.value.forEach(friend => {
-        lottie.loadAnimation({
-            container: document.querySelector(`.lottie-animation:nth-of-type(${friend.id})`),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '/animations/Animation - 1731319237400.json' // Remplacez par le chemin de votre fichier JSON
-        });
-    });
-});
+
 </script>
 
 <template>
