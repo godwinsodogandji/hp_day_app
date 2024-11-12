@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AjouterAmisController;
+use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\BirthdaysController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\InvitationsController;
@@ -53,6 +57,11 @@ Route::middleware('auth')->group(function () {
 
 
 
+
+Route::get('/ajoutdesamis', [AjouterAmisController::class, 'index'])->name('ajoutdesamis');
+Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
+Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
+Route::get('/upcoming-birthdays', [BirthdaysController::class, 'index'])->name('upcoming.birthdays');
 
 // Routes pour l'utilisateur
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
