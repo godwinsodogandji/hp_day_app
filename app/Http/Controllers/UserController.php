@@ -22,7 +22,7 @@ class UserController extends Controller
     // }
     public function index()
     {
-        $users = User::paginate(12); // Récupère tous les utilisateurs
+        $users = User::all(); // Récupère tous les utilisateurs
         return inertia('Users/List', ['users' => $users]);
     }
 
