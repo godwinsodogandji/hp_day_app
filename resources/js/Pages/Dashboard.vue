@@ -36,12 +36,13 @@ onMounted(() => {
         autoplay: true,
         path: '/animations/Animation - 1731410185826 (1).json' // Chemin vers votre animation JSON
     });
+    // Chargement de l'animation après le titre
     lottie.loadAnimation({
-        container: document.getElementById('lottie-animation-2'),
+        container: document.getElementById('lottie-animation2'),
         renderer: 'svg',
         loop: true, // Changez à false si vous ne voulez pas que l'animation boucle
         autoplay: true,
-        path: '/animations/Animation - 1731410185826 (1).json' // Chemin vers votre animation JSON
+        path: '/animations/Animation - 1731410185826 (1).json' // Utilisez le même chemin ou un autre si nécessaire
     });
 });
 </script>
