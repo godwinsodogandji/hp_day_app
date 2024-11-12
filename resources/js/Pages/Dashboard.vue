@@ -28,6 +28,22 @@ const changeTheme = () => {
 };
 
 
+const fonts = [
+    "'Charme', sans-serif",
+    "'Dancing Script', cursive",
+    "'Pacifico', cursive",
+    "'Lobster', cursive",
+    "'Poppins', sans-serif",
+];
+
+const currentFont = ref(fonts[1]);
+
+onMounted(() => {
+    setInterval(() => {
+        const nextIndex = (fonts.indexOf(currentFont.value) + 1) % fonts.length;
+        currentFont.value = fonts[nextIndex];
+    }, 45000); // Change de police toutes les 45 secondes
+});
 </script>
 
 <template>
@@ -167,8 +183,9 @@ const changeTheme = () => {
             </aside>
 
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
-                <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">🎉 Bienvenue dans votre Tableau de Bord d'Anniversaire !
-                    🎉</h1>
+                <h1 :class="currentFont" class="text-3xl font-bold mb-4 text-center animate-slide animate-blink" style="transition: font-family 0.5s;">
+            🎉 Bienvenue dans votre Tableau de Bord d'Anniversaire ! 🎉
+        </h1>
 
                 <!-- Section des anniversaires  du jour -->
                 <div class="mb-6">
@@ -241,4 +258,33 @@ const changeTheme = () => {
     font-weight: normal;
     font-style: normal;
 }
+/* @keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.animate-slide {
+    animation: slide 5s linear infinite;
+}
+
+.animate-blink {
+    animation: blink 1s step-start infinite;
+} */
 </style>
