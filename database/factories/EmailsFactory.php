@@ -18,12 +18,12 @@ class EmailsFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(), // Lier à un utilisateur existant ou en créer un
-            'recipient' => $this->faker->unique()->safeEmail(), // Adresse email du destinataire
-            'subject' => $this->faker->sentence(6), // Sujet de l'email
-            'body' => $this->faker->paragraph(), // Contenu de l'email
-            'status' => $this->faker->randomElement(['pending', 'sent', 'failed']), // Statut de l'email
-            'sent_at' => $this->faker->optional()->dateTime(), // Date et heure d'envoi (nullable)
+            'user_id' => User::factory(), 
+            'recipient' => $this->faker->unique()->safeEmail(), 
+            'subject' => $this->faker->sentence(6), 
+            'body' => $this->faker->paragraph(), 
+            'status' => $this->faker->randomElement(['pending', 'sent', 'failed']), 
+            'sent_at' => $this->faker->optional()->dateTime(), 
         ];
     }
 }

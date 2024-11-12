@@ -41,6 +41,12 @@ onMounted(() => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('dashboard')"
+                                    :active="route().current('dashboard')"
+                                >
+                                    Mail
+                                </NavLink>
                             </div>
                         </div>
 
@@ -123,7 +129,7 @@ onMounted(() => {
             </header>
 
             <!-- Page Content -->
-            <main class="relative z-10 bg-cover bg-center" 
+            <main class="relative z-10 bg-cover bg-center"
                 style="background-image: url('/animations/macaroons-bg.jpg'); min-height: calc(100vh - 64px);">
                 <div id="lottie" class="absolute inset-0  "></div> <!-- Animation Lottie -->
                 <slot />
