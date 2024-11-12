@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\AjouterAmisController;
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\BirthdaysController;
 use App\Http\Controllers\EmailsController;
+use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -32,14 +37,20 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/mail', [EmailsController::class, 'index'])->name('email.birthday');
 
-// routes de gestions d'amis
-Route::get('/users/{user_id}/friends', [FriendsController::class, 'getFriends']);//recuperer les amis d'un user donné
-Route::get('/users/{user_id}/suggestions', [FriendsController::class, 'suggestFriends']);//suggestions d'amis
-Route::get('/users/{user_id}/friends/{friend_id}', [FriendsController::class, 'searchFriends']);//recherch damis specifique
-// Route::post('/users/friends', function(){ return  response()->json("jsglkjklsg");});//envoi de demande d'amitié
-Route::get('/users/{user_id}/friends/{friend_id}', [FriendsController::class, 'sendFriendRequest']);
-Route::get('/users/{user_id}/friends/{friend_id}/accept', [FriendsController::class, 'acceptFriendRequest']); // Accepter une demande d'amitié
+Route::get('/card1', [EmailsController::class, 'card1']);
+Route::get('/card2', [EmailsController::class, 'card2']);
+Route::get('/card3', [EmailsController::class, 'card3']);
+Route::get('/card4', [EmailsController::class, 'card4']);
+
+
+
+Route::get('/invitation', [InvitationsController::class, 'index']);
+
+Route::get('/add', [InvitationsController::class, 'add']);
+Route::get('/valide', [InvitationsController::class, 'valide']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,6 +60,11 @@ Route::middleware('auth')->group(function () {
 
 
 
+
+Route::get('/ajoutdesamis', [AjouterAmisController::class, 'index'])->name('ajoutdesamis');
+Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
+Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
+Route::get('/upcoming-birthdays', [BirthdaysController::class, 'index'])->name('upcoming.birthdays');
 
 // Routes pour l'utilisateur
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
