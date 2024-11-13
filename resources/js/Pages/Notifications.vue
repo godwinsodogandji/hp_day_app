@@ -1,11 +1,6 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
+import { ref, defineProps } from "vue";
 import axios from "axios";
-
-// État pour gérer l'ouverture/fermeture de l'aside
-const isAsideOpen = ref(false);
 
 // Déclaration de la variable pour stocker les notifications
 const props = defineProps({
@@ -15,26 +10,43 @@ const props = defineProps({
   }
 });
 
+// Utiliser une référence réactive pour les notifications
+const notifications = ref([...props.notifications]);
+
+// État pour gérer l'ouverture/fermeture de l'aside
+const isAsideOpen = ref(false);
+const openMenu = ref(null);
+const customMessage = ref("");
+const selectedTheme = ref("default");
+
 // Fonction pour basculer l'état de l'aside
 const toggleAside = () => {
   isAsideOpen.value = !isAsideOpen.value;
 };
 
-const customMessage = ref("");
-const selectedTheme = ref("default");
-
-const sendEmail = () => {
-  alert(`Email envoyé avec le message : ${customMessage.value}`);
+const toggleMenu = (id) => {
+  openMenu.value = openMenu.value === id ? null : id;
 };
 
-const changeTheme = () => {
-  document.body.className = selectedTheme.value;
+const markAsRead = (id) => {
+  console.log(`La notification ${id} est marquée comme lue`);
+  openMenu.value = null;
 };
 
-
-
+// Fonction pour supprimer la notification
+const deleteNotification = async (id) => {
+  try {
+    await axios.delete(`http://127.0.0.1:8000/notifications/${id}`);
+    // Supprimer la notification du tableau local
+    notifications.value = notifications.value.filter(notification => notification.id !== id);
+    console.log(`Notification ${id} supprimée`);
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la notification :", error.response?.data?.message || error.message);
+    alert("Une erreur est survenue lors de la suppression de la notification : " + (error.response?.data?.message || "Erreur inconnue."));
+  }
+  openMenu.value = null;
+};
 </script>
-
 <template>
   <Head title="Dashboard" />
 
@@ -253,40 +265,108 @@ const changeTheme = () => {
         </div>
       </aside>
 
-    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6" style="height: 750px;">
-      <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">🎉 Notifications 🎉</h1>
+      <div
+        class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6"
+        style="height: 750px"
+      >
+        <h1
+          class="text-3xl font-bold mb-4 text-center"
+          style="font-family: 'Charme', sans-serif"
+        >
+          🎉 Notifications 🎉
+        </h1>
 
-      <div class="flex justify-center items-center w-full h-full">
-        <div class="relative w-2/5 max-w-full overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-3/5">
-          <ul>
-            <li v-if="notifications.length === 0" class="text-center p-4">Aucune notification à afficher.</li>
-            <li v-for="notification in notifications" :key="notification.id" class="border-b border-gray-100 dark:border-gray-600">
-              <a href="#" class="flex items-center justify-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
-                <img class="me-3 rounded-full w-11 h-11" :src="notification.avatar_url || '/path/to/default/avatar.jpg'" alt="Avatar" />
-                <div>
-                  <p class="text-sm text-gray-500 dark:text-gray-400">
-                    <span class="font-medium text-gray-900 dark:text-white">{{ notification.username  }}</span>
-                    {{ notification.message }}
-                  </p>
-                  <span class="text-xs text-blue-600 dark:text-blue-500">{{ notification.time_ago }}</span>
+        <h2
+          class="text-2xl font-bold ms-12"
+          style="font-family: 'Charme', sans-serif"
+        >
+          Nouveaux
+        </h2>
+        <div class="flex justify-center items-center w-full h-full">
+          <div
+            class="relative w-4/5 max-w-full overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-4/5"
+          >
+            <ul class="list-none p-0 m-0">
+              <li v-if="notifications.length === 0" class="text-center p-4">
+                Aucune notification à afficher.
+              </li>
+              <li
+                v-for="notification in notifications"
+                :key="notification.id"
+                class="border-b border-gray-100 dark:border-gray-600 flex justify-between items-center"
+              >
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 flex-1"
+                >
+                  <img
+                    class="me-3 rounded-full w-11 h-11"
+                    :src="
+                      notification.avatar_url || '/path/to/default/avatar.jpg'
+                    "
+                    alt="Avatar"
+                  />
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      <span class="font-medium text-gray-900 dark:text-white">{{
+                        notification.user_name || "Inconnu"
+                      }}</span>
+                      {{ notification.message }}
+                    </p>
+                    <span class="text-xs text-blue-600 dark:text-blue-500">{{
+                      notification.time_ago
+                    }}</span>
+                  </div>
+                </a>
+                <div @click.stop="toggleMenu(notification.id)" class="relative">
+                  <button class="focus:outline-none">
+                    <svg
+                      class="w-6 h-6 text-gray-500 hover:text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="12" cy="12" r="1" />
+                      <circle cx="12" cy="6" r="1" />
+                      <circle cx="12" cy="18" r="1" />
+                    </svg>
+                  </button>
+                  <div
+                    v-if="openMenu === notification.id"
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10"
+                  >
+                    <ul class="py-1">
+                      <li
+                        @click="markAsRead(notification.id)"
+                        class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Marquer comme lu
+                      </li>
+                      <li
+                        @click="deleteNotification(notification.id)"
+                        class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Supprimer
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </a>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-      <!-- Souhaiter un bon anniversaire -->
-      <div class="text-center mt-8">
-        <h2
-          class="text-xl font-semibold"
-          style="font-family: 'Charme', sans-serif"
-        >
-          🎂 Ajouter un ami pour lui souhaiter un Joyeux Anniversaire ! 🎂
-        </h2>
-      </div>
-  
+    <!-- Souhaiter un bon anniversaire -->
+    <div class="text-center mt-8">
+      <h2
+        class="text-xl font-semibold"
+        style="font-family: 'Charme', sans-serif"
+      >
+        🎂 Ajouter un ami pour lui souhaiter un Joyeux Anniversaire ! 🎂
+      </h2>
+    </div>
   </AuthenticatedLayout>
 </template>
 
