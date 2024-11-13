@@ -24,11 +24,28 @@ class NotificationsController extends Controller
                      'notifications' => $notifications,
                  ]);
 
-
+                 $notifications = Notifications::paginate(7);
+                 return response()->json($notifications);
                  
     }
     private function timeAgo($timestamp)
     {
         return \Carbon\Carbon::parse($timestamp)->diffForHumans();
+    }
+
+    public function destroy($id)
+    {
+        $notification = Notifications::find($id);
+        if (!$notification) {
+            return response()->json(['message' => 'Notification introuvable.'], 404);
+        }
+    
+        try {
+            $notification->delete();
+            return response()->json(['message' => 'Notification supprimée avec succès.']);
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de la suppression de la notification: ' . $e->getMessage());
+            return response()->json(['message' => 'Erreur lors de la suppression de la notification.', 'error' => $e->getMessage()], 500);
+        }
     }
 }

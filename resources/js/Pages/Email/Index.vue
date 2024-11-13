@@ -28,7 +28,7 @@
             </div>
         </template>
 
-        <div class="py-6">
+        <div class="py-1">
             <Aside></Aside>
 
             <div
