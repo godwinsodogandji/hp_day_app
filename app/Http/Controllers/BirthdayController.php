@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Inertia\Inertia;
 use App\Models\Birthdays;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -29,12 +29,22 @@ class BirthdayController extends Controller
 
 public function showUpcomingBirthdays()
 {
-    $upcomingBirthdays = $this->getUpcomingBirthdays();
-    return view('upcoming_birthdays', compact('upcomingBirthdays'));
-    // return response()->json($upcomingBirthdays);
+    // Récupérer les anniversaires à venir
+    $upcomingBirthdays = $this->getUpcomingBirthdays()->map(function ($birthday) {
+        return [
+            'id' => $birthday->id,
+            'date' => $birthday->date,
+            'user' => [
+                'name' => $birthday->user->name,
+                'profile_picture' => $birthday->user->profile_picture, // Assurez-vous que 'profile_picture' existe
+            ],
+        ];
+    });
+
+    return Inertia::render('UpcomingBirthdays', [
+        'birthdays' => $upcomingBirthdays,
+    ]);
 }
-
-
 
 public function sendBirthdayReminder($user, $birthday)
 {

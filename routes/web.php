@@ -3,7 +3,7 @@
 use App\Http\Controllers\AjouterAmisController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\NotificationsController;
-use App\Http\Controllers\BirthdaysController;
+// use App\Http\Controllers\BirthdaysController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\InvitationsController;
@@ -32,10 +32,10 @@ Route::get('/login', function () {
 
 
 // Récupérer les anniversaires à venir (API ou action backend)
-Route::get('/upcoming-birthdays-data', [BirthdayController::class, 'getUpcomingBirthdays']);
+// Route::get('/upcoming-birthdays-data', [BirthdayController::class, 'getUpcomingBirthdays']);
 
 // Afficher les anniversaires à venir (pour la vue)
-Route::get('/upcoming-birthday', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
+// Route::get('/upcoming-birthday', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
 
 
 Route::get('/dashboard', function () {
@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/ajoutdesamis', [AjouterAmisController::class, 'index'])->name('ajoutdesamis');
 Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
 Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
-Route::get('/upcoming-birthdays', [BirthdaysController::class, 'index'])->name('upcoming.birthdays');
+Route::get('/upcoming-birthdays', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming.birthdays');
 
 // Routes pour l'utilisateur
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
