@@ -34,16 +34,14 @@
                 alt="Image d'anniversaire" />
             </a>
             <div class="p-5">
-              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                🎉 Un anniversaire spécial pour une personne exceptionnelle !
-              </h5>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              <p class="mb-3 font-normal text-white dark:text-gray-400"
+                style="font-family: 'LoversQuarrel', sans-serif">
                 {{ personalizedMessage }}
               </p>
               <div class="flex gap-4">
                 <!-- Bouton personnaliser -->
                 <button @click="openModal"
-                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gradient-to-r rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   Personnaliser ton message
                   <svg class="rtl:rotate-180 w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="none" viewBox="0 0 14 10">
@@ -53,11 +51,11 @@
                 </button>
 
                 <button @click="sendMessage"
-                  class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800">
-                  Envoyer
-                </button><button @click="closeModal"
-                  class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Envoyez</button>
+                  class="px-4 py-2 bg-gradient-to-r text-white rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  <i class="fas fa-paper-plane mr-1"></i>
+                 </button>
               </div>
+
             </div>
           </div>
 
@@ -85,7 +83,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import Aside from '../Aside.vue';
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 // Data pour gérer le message personnalisé et l'état du modal
 const personalizedMessage = ref(
@@ -110,18 +108,42 @@ const saveMessage = () => {
   // Logique de sauvegarde (par exemple, envoyer à un serveur, etc.)
   closeModal();
 };
+
+onMounted(() => {
+  lottie.loadAnimation({
+    container: document.getElementById("lottie-animation"),
+    renderer: "svg",
+    loop: true, // Changez à false si vous ne voulez pas que l'animation boucle
+    autoplay: true,
+    path: "/animations/Animation - 1731410185826 (1).json", // Chemin vers votre animation JSON
+  });
+  // Chargement de l'animation après le titre
+  lottie.loadAnimation({
+    container: document.getElementById("lottie-animation2"),
+    renderer: "svg",
+    loop: true, // Changez à false si vous ne voulez pas que l'animation boucle
+    autoplay: true,
+    path: "/animations/Animation - 1731410185826 (1).json", // Utilisez le même chemin ou un autre si nécessaire
+  });
+});
+
 </script>
 
 <style scoped>
-/* Style pour le modal */
-.fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 50;
+@font-face {
+  font-family: "Charme";
+  src: url("./fonts/Charm-Regular.ttf.ttf") format("truetype");
+  /* Assurez-vous que le chemin est correct */
+  font-weight: normal;
+  font-style: normal;
 }
 
-.bg-gray-900 {
-  background-color: rgba(0, 0, 0, 0.5);
+@font-face {
+  font-family: "LoversQuarrel";
+  src: url("./fonts/Charmonman-Regular.ttf.ttf") format("truetype");
+  /* Assurez-vous que le chemin est correct */
+  font-weight: normal;
+  font-style: normal;
+  font-size: 100rem;
 }
 </style>
