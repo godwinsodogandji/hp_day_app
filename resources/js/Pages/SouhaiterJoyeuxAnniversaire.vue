@@ -13,5 +13,4 @@ const props = defineProps(['friendId']);
 </script>
 
 <style>
-/* Ajoutez des styles si nécessaire */
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <Head title="Dashboard" />
-  <AuthenticatedLayout>
-
-    <template #header>
+    <Head title="Dashboard" />
+    <AuthenticatedLayout>
+        <template #header>
             <div class="flex justify-center space-x-8">
                 <a
                     href="/"
@@ -29,6 +28,7 @@
             </div>
         </template>
 
+        <Aside></Aside>
 
 
   
@@ -105,11 +105,11 @@ Joyeux anniversaire, de tout cœur.`);
 const tempMessage = ref(personalizedMessage.value);
 
 const applyPersonalization = () => {
-  personalizedMessage.value = tempMessage.value;
-  showModal.value = false;
+    personalizedMessage.value = tempMessage.value;
+    showModal.value = false;
 };
 const sendMessage = () => {
-  alert("Le message a été envoyé !");
+    alert("Le message a été envoyé !");
 };
 
 onMounted(() => {
@@ -152,29 +152,29 @@ onMounted(() => {
 
 /* Styles pour le modal et la carte */
 .fixed {
-  position: fixed;
+    position: fixed;
 }
 
 .inset-0 {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .bg-gradient-to-r {
-  background: linear-gradient(135deg, #6a1b9a, #e91e63);
+    background: linear-gradient(135deg, #6a1b9a, #e91e63);
 }
 
 .text-white {
-  color: white;
+    color: white;
 }
 
 .hover\:scale-105:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .shadow-xl {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 </style>
