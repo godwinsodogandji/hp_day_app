@@ -29,14 +29,12 @@ const props = defineProps({
     },
 });
 
-
 const currentPage = ref(1);
 const itemsPerPage = 4;
+const slideDirection = ref('slide-right'); // Direction de l'animation
 
 // Pagination calculée
-const totalPages = computed(() =>
-    Math.ceil(props.birthdays.length / itemsPerPage)
-);
+const totalPages = computed(() => Math.ceil(props.birthdays.length / itemsPerPage));
 
 const paginatedBirthdays = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
@@ -46,20 +44,22 @@ const paginatedBirthdays = computed(() => {
 // Fonctions de pagination
 const nextPage = () => {
     if (currentPage.value < totalPages.value) {
+        slideDirection.value = 'slide-left'; // Changer la direction
         currentPage.value++;
     }
 };
 
 const prevPage = () => {
     if (currentPage.value > 1) {
+        slideDirection.value = 'slide-right'; // Changer la direction
         currentPage.value--;
     }
 };
 
 // Format de date personnalisé
 const formatDate = (date) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(date).toLocaleDateString("fr-FR", options);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString('fr-FR', options);
 };
 </script>
 
@@ -411,19 +411,28 @@ const formatDate = (date) => {
     </AuthenticatedLayout>
 </template>
 
-<style scoped>
+<style >
 @font-face {
     font-family: "Charme";
     src: url("./fonts/Charm-Regular.ttf.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s;
+.slide-enter-active, .slide-leave-active {
+    transition: transform 0.5s ease;
 }
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
+.slide-enter, .slide-leave-to {
+    transform: translateX(100%); /* Slide in from the right */
+}
+.slide-leave {
+    transform: translateX(0);
+}
+
+/* Animation pour le carrousel */
+.slide-left {
+    transform: translateX(-100%); /* Slide out to the left */
+}
+.slide-right {
+    transform: translateX(100%); /* Slide out to the right */
 }
 </style>
