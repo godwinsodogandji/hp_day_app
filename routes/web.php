@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/ajoutdesamis', [AjouterAmisController::class, 'index'])->name('ajoutdesamis');
 Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
 Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications');
+Route::delete('/notifications/{id}', [NotificationsController::class, 'destroy']);
 Route::get('/upcoming-birthdays', [BirthdaysController::class, 'index'])->name('upcoming.birthdays');
 
 // Routes pour l'utilisateur
