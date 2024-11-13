@@ -1,4 +1,6 @@
 <script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head, Link } from "@inertiajs/vue3";
 import { ref, defineProps } from "vue";
 import axios from "axios";
 
@@ -114,12 +116,7 @@ const deleteNotification = async (id) => {
           🎉 Notifications 🎉
         </h1>
 
-        <h2
-          class="text-2xl font-bold ms-12"
-          style="font-family: 'Charme', sans-serif"
-        >
-          Nouveaux
-        </h2>
+      
         <div class="flex justify-center items-center w-full h-full">
           <div
             class="relative w-4/5 max-w-full overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-4/5"
@@ -196,15 +193,7 @@ const deleteNotification = async (id) => {
         </div>
       </div>
     </div>
-    <!-- Souhaiter un bon anniversaire -->
-    <div class="text-center mt-8">
-      <h2
-        class="text-xl font-semibold"
-        style="font-family: 'Charme', sans-serif"
-      >
-        🎂 Ajouter un ami pour lui souhaiter un Joyeux Anniversaire ! 🎂
-      </h2>
-    </div>
+  
   </AuthenticatedLayout>
 </template>
 
