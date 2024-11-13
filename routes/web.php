@@ -9,6 +9,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\SouhaiterJoyeuxAnniversaire;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +74,8 @@ Route::post('/users/{user}/notify', [UserController::class, 'notify'])->name('us
 Route::get('/users/{user}/email', [EmailsController::class, 'create'])->name('email.create'); // Afficher le formulaire d'envoi
 Route::post('/users/{user}/email', [EmailsController::class, 'send'])->name('email.send'); // Envoyer l'email
 
-
+Route::get('/souhaiter/{friendId}', [SouhaiterJoyeuxAnniversaire::class, 'souhaiterJoyeuxAnniversaire'])
+    ->name('souhaiter.joyeux-anniversaire');
 
 
 require __DIR__ . '/auth.php';

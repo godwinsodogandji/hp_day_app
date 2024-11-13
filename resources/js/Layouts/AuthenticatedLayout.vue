@@ -131,7 +131,9 @@ onMounted(() => {
             <!-- Page Content -->
             <main class="relative z-10 bg-cover bg-center"
                 style="background-image: url('/animations/macaroons-bg.jpg'); min-height: calc(100vh - 64px);">
-                <div id="lottie" class="absolute inset-0  "></div> <!-- Animation Lottie -->
+                <div>
+                  
+                </div>
                 <slot />
             </main>
         </div>
