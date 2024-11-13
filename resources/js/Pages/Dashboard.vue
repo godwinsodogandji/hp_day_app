@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
 import Aside from '@/Pages/Aside.vue';
 import lottie from "lottie-web";
@@ -140,11 +140,12 @@ onMounted(() => {
                                 </h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ friend.birthday }}</span>
                                 <div class="flex mt-4 md:mt-6">
-                                    <router-link
-                                        :to="{ name: 'souhaiter.joyeux-anniversaire', params: { friendId: friend.id } }"
+                                    <Link
+                                       href="/mail"
                                         class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
                                         Souhaiter
-                                    </router-link>
+                                </Link>
+                                
                                 </div>
                             </div>
                         </div>
