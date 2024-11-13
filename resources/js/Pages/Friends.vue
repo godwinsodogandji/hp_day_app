@@ -75,7 +75,7 @@ const changeTheme = () => {
             <Aside></Aside>
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
                 <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">🎉
-                    🎉</h1>
+                  Bienvenue dans la liste de vos amis  🎉</h1>
 
                 <!-- Section des anniversaires  du jour -->
                 <div class="mb-6">
@@ -130,12 +130,7 @@ const changeTheme = () => {
                     </div>
                 </div>
 
-                <!-- Souhaiter un bon anniversaire -->
-                <div class="text-center mt-8">
-                    <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif;">🎂 Ajouter un ami pour
-                        lui
-                        souhaiter un Joyeux Anniversaire ! 🎂</h2>
-                </div>
+                
             </div>
         </div>
     </AuthenticatedLayout>
