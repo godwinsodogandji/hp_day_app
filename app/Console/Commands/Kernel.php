@@ -29,13 +29,19 @@ class CommandKernel extends ConsoleKernel
 
     protected function sendBirthdayReminder($user, $birthday)
     {
-        // Logique pour envoyer un rappel d'anniversaire
-        Mail::to($user->email)->send(new BirthdayReminderMail($birthday));
-        
-        // Marquer l'anniversaire comme notifié
-        $birthday->notification_sent = true;
-        $birthday->save();
+        try {
+            // Logique pour envoyer un rappel d'anniversaire
+            Mail::to($user->email)->send(new BirthdayReminderMail($birthday));
+    
+            // Marquer l'anniversaire comme notifié
+            $birthday->notification_sent = true;
+            $birthday->save();
+        } catch (\Exception $e) {
+            // Log error if email fails
+            // \Log::error('Failed to send birthday reminder for user ' . $user->id . ': ' . $e->getMessage());
+        }
     }
+    
 
     protected function commands()
     {
