@@ -39,8 +39,8 @@
   <div class="py-1">
     <Aside></Aside>
 
-    <div class="max-w-7xl mx-auto rounded-lg shadow-xl overflow-hidden">
-      <div class="flex justify-center items-center min-h-screen">
+    <div class="max-w-7xl mx-auto rounded-lg shadow-xl-[1]  mt-1 overflow-hidden">
+      <div class="flex justify-center items-center ">
         <!-- Carte d'anniversaire -->
         <div class="max-w-sm bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg shadow-xl overflow-hidden">
           <a href="#">
