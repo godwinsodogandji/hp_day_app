@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Notification; // Utilisez le modèle Notification
+use App\Models\Notifications;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Notification;
 
 class DatabaseSeederNotifications extends Seeder
 {
@@ -19,9 +20,9 @@ class DatabaseSeederNotifications extends Seeder
         foreach ($users as $user) {
             // Créer quelques notifications pour chaque utilisateur
             for ($i = 0; $i < 3; $i++) {
-                Notification::create([
+                Notifications::create([ 
                     'user_id' => $user->id,
-                    'message' => $this->generateRandomMessage(), 
+                    'message' => $this->generateRandomMessage(),
                     'is_read' => false, // Initialiser à false
                 ]);
             }

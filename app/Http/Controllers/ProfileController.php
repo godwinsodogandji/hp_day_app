@@ -27,18 +27,30 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+   public function update(ProfileUpdateRequest $request): RedirectResponse
+{
+    $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    // Remplir l'utilisateur avec les données validées
+    $user->fill($request->validated());
 
-        $request->user()->save();
+    // Vérifier si l'email a changé
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
 
-        return Redirect::route('profile.edit');
+        // Optionnel : Envoyer une notification ou un email de vérification
+        // Notification::send($user, new EmailChangedNotification());
     }
+
+    // Tenter de sauvegarder les modifications
+    try {
+        $user->save();
+    } catch (\Exception $e) {
+        return Redirect::route('profile.edit')->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour du profil.']);
+    }
+
+    return Redirect::route('profile.edit')->with('status', 'Profil mis à jour avec succès.');
+}
 
     /**
      * Delete the user's account.
@@ -52,12 +64,11 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('status', 'Votre compte a été supprimé avec succès.');
     }
 }
