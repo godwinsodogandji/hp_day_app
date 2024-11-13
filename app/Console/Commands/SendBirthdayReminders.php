@@ -2,68 +2,57 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Birthdays;
 use Illuminate\Console\Command;
+use App\Models\Birthdays;
+use App\Models\User;
+use Carbon\Carbon;
+use App\Mail\BirthdayReminderMail;
 use Illuminate\Support\Facades\Mail;
 
 class SendBirthdayReminders extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:send-birthday-reminders';
+    protected $signature = 'send:birthday-reminders';
+    protected $description = 'Envoie les rappels d\'anniversaires pour les anniversaires du jour suivant';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Envoie des rappels d’anniversaire aux utilisateurs';
-
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
-        // Récupérer les anniversaires à venir dans les 7 prochains jours
-        $upcomingBirthdays = Birthdays::whereBetween('date', [now(), now()->addDays(7)])
+        $tomorrow = Carbon::tomorrow()->toDateString();
+
+        // Récupérer tous les anniversaires pour demain
+        $birthdays = Birthdays::with('user')->whereDate('date', $tomorrow)
             ->where('notification_sent', false)
             ->get();
 
-        if ($upcomingBirthdays->isEmpty()) {
-            $this->info('Aucun anniversaire à venir dans les 7 prochains jours.');
-            return;
+        foreach ($birthdays as $birthday) {
+            // Envoyer le rappel d'anniversaire par mail
+            $this->sendBirthdayReminder($birthday->user, $birthday);
+
+            // Marquer l'anniversaire comme traité
+            $birthday->update(['notification_sent' => true]);
         }
 
-        foreach ($upcomingBirthdays as $birthday) {
-            $this->sendBirthdayReminder($birthday);
-        }
-
-        $this->info('Rappels d’anniversaire envoyés.');
+        $this->info('Tous les rappels d\'anniversaires ont été envoyés avec succès.');
     }
+
 
     /**
      * Envoie un email de rappel pour un anniversaire donné.
      *
      * @param \App\Models\Birthdays $birthday
      */
-    private function sendBirthdayReminder($birthday)
+
+    public function sendBirthdayReminder($user, $birthday)
+
     {
-        $user = $birthday->user;
         $data = [
             'user' => $user,
-            'birthday' => $birthday,
+            'birthday' => $birthday
         ];
 
         // Envoi de l'email
-        Mail::send('emails.birthday_reminder', $data, function ($message) use ($user) {
+        Mail::send('birthday_reminder', $data, function ($message) use ($user) {
             $message->to($user->email)
                     ->subject("Rappel : L'anniversaire de votre ami(e) est demain !");
         });
-
-        // Marquer la notification comme envoyée
-        $birthday->update(['notification_sent' => true]);
     }
 }

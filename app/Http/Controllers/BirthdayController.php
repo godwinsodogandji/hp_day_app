@@ -17,34 +17,46 @@ class BirthdayController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getUpcomingBirthdays()
+
+   public function getUpcomingBirthdays(Request $request)
 {
-    // Récupérer les anniversaires qui se produisent dans les 7 prochains jours
-    $upcomingBirthdays = Birthdays::whereBetween('date', [Carbon::now(), Carbon::now()->addDays(7)])
-        ->where('notification_sent', false) // On filtre ceux dont le rappel n'a pas encore été envoyé
-        ->get();
+    // Nombre d'anniversaires à afficher par page (par exemple 5)
+    $perPage = 5;
+
+    // Charger les anniversaires à venir avec l'utilisateur et son profil
+    $upcomingBirthdays = Birthdays::with('user.profile') // Charger la relation 'user' et 'profile'
+        ->whereBetween('date', [Carbon::now(), Carbon::now()->addDays(7)])
+        ->where('notification_sent', false)
+        ->paginate($perPage); // Utilisation de paginate au lieu de get()
 
     return $upcomingBirthdays;
 }
 
-public function showUpcomingBirthdays()
+
+public function showUpcomingBirthdays(Request $request)
 {
-    // Récupérer les anniversaires à venir
-    $upcomingBirthdays = $this->getUpcomingBirthdays()->map(function ($birthday) {
+    $upcomingBirthdays = $this->getUpcomingBirthdays($request)->map(function ($birthday) {
         return [
             'id' => $birthday->id,
             'date' => $birthday->date,
             'user' => [
-                'name' => $birthday->user->name,
-                'profile_picture' => $birthday->user->profile_picture, 
+
+                'name' => $birthday->user->username, // Utiliser 'username' ou 'name' selon votre modèle
+                'profile_picture' => $birthday->user->profile ? $birthday->user->profile->avatar : null, // L'avatar du profil
+
             ],
         ];
     });
 
+    // Passer les données paginées à Inertia, y compris le nombre total de pages et la page actuelle
     return Inertia::render('UpcomingBirthdays', [
         'birthdays' => $upcomingBirthdays,
+        'currentPage' => $request->page ?? 1, // Page actuelle, avec une valeur par défaut
+        'totalPages' => $this->getUpcomingBirthdays($request)->lastPage(), // Nombre total de pages
     ]);
 }
+
+
 
 public function sendBirthdayReminder($user, $birthday)
 {
