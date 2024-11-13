@@ -21,13 +21,13 @@ class BirthdayController extends Controller
    public function getUpcomingBirthdays(Request $request)
 {
     // Nombre d'anniversaires à afficher par page (par exemple 5)
-    $perPage = 5;
+
 
     // Charger les anniversaires à venir avec l'utilisateur et son profil
     $upcomingBirthdays = Birthdays::with('user.profile') // Charger la relation 'user' et 'profile'
         ->whereBetween('date', [Carbon::now(), Carbon::now()->addDays(7)])
         ->where('notification_sent', false)
-        ->paginate($perPage); // Utilisation de paginate au lieu de get()
+        ->get();
 
     return $upcomingBirthdays;
 }
@@ -51,8 +51,6 @@ public function showUpcomingBirthdays(Request $request)
     // Passer les données paginées à Inertia, y compris le nombre total de pages et la page actuelle
     return Inertia::render('UpcomingBirthdays', [
         'birthdays' => $upcomingBirthdays,
-        'currentPage' => $request->page ?? 1, // Page actuelle, avec une valeur par défaut
-        'totalPages' => $this->getUpcomingBirthdays($request)->lastPage(), // Nombre total de pages
     ]);
 }
 

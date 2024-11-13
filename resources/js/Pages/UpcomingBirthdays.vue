@@ -1,7 +1,8 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
 // État pour gérer l'ouverture/fermeture de l'aside
 const isAsideOpen = ref(false);
 
@@ -28,7 +29,34 @@ const props = defineProps({
     },
 });
 
-// Format de date personnalisé (ex: "13 Novembre")
+
+const currentPage = ref(1);
+const itemsPerPage = 4;
+
+// Pagination calculée
+const totalPages = computed(() =>
+    Math.ceil(props.birthdays.length / itemsPerPage)
+);
+
+const paginatedBirthdays = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    return props.birthdays.slice(start, start + itemsPerPage);
+});
+
+// Fonctions de pagination
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++;
+    }
+};
+
+const prevPage = () => {
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+};
+
+// Format de date personnalisé
 const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString("fr-FR", options);
@@ -41,27 +69,28 @@ const formatDate = (date) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-center space-x-8">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
                 <a
                     href="/"
-                    class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
+                    class="flex items-center text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
                 >
+                    <i class="fas fa-gift mr-2"></i>
                     Anniversaires du jour
                 </a>
                 <a
                     href="/friends"
-                    class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
+                    class="flex items-center text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
                 >
+                    <i class="fas fa-user-friends mr-2"></i>
                     Mes Amis
                 </a>
                 <a
                     href="/notifications"
-                    class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
+                    class="flex items-center text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500"
                 >
+                    <i class="fas fa-bell mr-2"></i>
                     Notifications
                 </a>
+                <div></div>
             </div>
         </template>
 
@@ -261,75 +290,140 @@ const formatDate = (date) => {
 
                 <!-- Section des anniversaires du jour -->
                 <div class="mb-6">
-                  <h2 class="text-2xl font-semibold mb-2">Anniversaires à venir</h2>
-                  <div class="flex gap-4 justify-center">
-                    <div v-if="birthdays.length === 0" class="bg-gray-200 p-4 rounded shadow">
-                      Aucun anniversaire à venir dans les 7 prochains jours.
-                    </div>
-                    <div v-for="birthday in birthdays" :key="birthday.id"
-                      class="w-[200px] max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                      <div class="flex justify-end px-4 pt-4">
-                        <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                          class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                          type="button">
-                          <span class="sr-only">Open dropdown</span>
-                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 16 3">
-                            <path
-                              d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                          </svg>
-                        </button>
-                        <!-- Dropdown menu -->
-                        <div id="dropdown"
-                          class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                          <ul class="py-2" aria-labelledby="dropdownButton">
-                            <li>
-                              <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-                            </li>
-                            <li>
-                              <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export
-                                Data</a>
-                            </li>
-                            <li>
-                              <a href="#"
-                                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                            </li>
-                          </ul>
+                    <h2 class="text-2xl font-semibold mb-2">
+                        Anniversaires à venir
+                    </h2>
+                    <div class="flex gap-4 justify-center">
+                        <div
+                            v-if="birthdays.length === 0"
+                            class="bg-gray-200 p-4 rounded shadow"
+                        >
+                            Aucun anniversaire à venir dans les 7 prochains
+                            jours.
                         </div>
-                      </div>
-                      <div class="flex flex-col items-center p-4">
-                        <img class="w-20 h-20 mb-3 rounded-full shadow-lg"
-                          :src="birthday.user.profilePicture"
-                          :alt="'Profile image of ' + birthday.user.name" />
-                        <h5 class="mb-1 text-lg font-medium text-gray-900 dark:text-white">{{ birthday.user.name }}</h5>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(birthday.date) }}</span>
-                        <!-- <span v-if="!birthday.notification_sent" class="text-sm text-red-500">Rappel non envoyé</span>
-                        <span v-if="birthday.notification_sent" class="text-sm text-green-500">Rappel envoyé</span> -->
-                        <!-- <div class="flex mt-4 md:mt-6">
-                          <button class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">Ajouter</button>
-                        </div> -->
-                      </div>
+                        <transition name="fade" mode="out-in">
+                            <div class="flex gap-4 justify-center">
+                                <div
+                                    v-for="birthday in paginatedBirthdays"
+                                    :key="birthday.id"
+                                    class="w-[200px] max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                                >
+                                    <div class="flex justify-end px-4 pt-4">
+                                        <!-- Dropdown button -->
+                                        <button
+                                            id="dropdownButton"
+                                            data-dropdown-toggle="dropdown"
+                                            class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                                        >
+                                            <span class="sr-only"
+                                                >Open dropdown</span
+                                            >
+                                            <svg
+                                                class="w-5 h-5"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor"
+                                                viewBox="0 0 16 3"
+                                            >
+                                                <path
+                                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <!-- Dropdown menu -->
+                                        <div
+                                            id="dropdown"
+                                            class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                                        >
+                                            <ul
+                                                class="py-2"
+                                                aria-labelledby="dropdownButton"
+                                            >
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                        >Edit</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                        >Export Data</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                        >Delete</a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center p-4">
+                                        <img
+                                            class="w-20 h-20 mb-3 rounded-full shadow-lg"
+                                            :src="birthday.user.profilePicture"
+                                            :alt="
+                                                'Profile image of ' +
+                                                birthday.user.name
+                                            "
+                                        />
+                                        <h5
+                                            class="mb-1 text-lg font-medium text-gray-900 dark:text-white"
+                                        >
+                                            {{ birthday.user.name }}
+                                        </h5>
+                                        <span
+                                            class="text-sm text-gray-500 dark:text-gray-400"
+                                            >{{
+                                                formatDate(birthday.date)
+                                            }}</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
                     </div>
-                  </div>
-             </div>
-                  </div>
-
-                  <!-- Souhaiter un bon anniversaire -->
-                  <div class="text-center mt-8">
-                    <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif;">🎂 Qui garde son âme d'enfant ne vieillit jamais. Pensez à vos proches ! 🎂</h2>
-                  </div>
+                    <!-- Pagination Controls -->
+                    <div class="flex justify-between mt-6">
+                        <button
+                            @click="prevPage"
+                            :disabled="currentPage === 1"
+                            class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+                        >
+                            Précédent
+                        </button>
+                        <button
+                            @click="nextPage"
+                            :disabled="currentPage === totalPages"
+                            class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+                        >
+                            Suivant
+                        </button>
+                    </div>
                 </div>
-
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
 
 <style scoped>
 @font-face {
-    font-family: 'Charme';
-    src: url('./fonts/Charm-Regular.ttf.ttf') format('truetype');
+    font-family: "Charme";
+    src: url("./fonts/Charm-Regular.ttf.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
