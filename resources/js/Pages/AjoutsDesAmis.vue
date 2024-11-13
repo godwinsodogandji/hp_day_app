@@ -176,7 +176,7 @@ const changeTheme = () => {
 
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
                 <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">🎉
-                    🎉</h1>
+                Avoir des relations avec de nouvelles personnes    🎉</h1>
 
                 <!-- Section des anniversaires  du jour -->
                 <div class="mb-6">
