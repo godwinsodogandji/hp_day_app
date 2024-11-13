@@ -8,10 +8,9 @@ use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfilesController;
-use App\Http\Controllers\SouhaiterJoyeuxAnniversaire;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\BirthdayController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 Route::get('/', function () {
@@ -30,6 +29,14 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->middleware('guest')->name('login'); // Protéger la route de connexion
+
+
+// Récupérer les anniversaires à venir (API ou action backend)
+Route::get('/upcoming-birthdays-data', [BirthdayController::class, 'getUpcomingBirthdays']);
+
+// Afficher les anniversaires à venir (pour la vue)
+Route::get('/upcoming-birthdays', [BirthdayController::class, 'showUpcomingBirthdays'])->name('upcoming-birthdays');
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
