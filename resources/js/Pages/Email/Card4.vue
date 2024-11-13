@@ -1,4 +1,25 @@
 <template>
+   <Head title="Dashboard" />
+   <AuthenticatedLayout>
+    <template #header>
+      <div class="flex justify-center space-x-8">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+          Dashboard
+        </h2>
+        <a href="/" class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500">
+          Anniversaires du jour
+        </a>
+        <a href="/friends" class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500">
+          Mes Amis
+        </a>
+        <a href="/notifications" class="text-xl font-semibold leading-tight text-gray-800 hover:text-blue-500">
+          Notifications
+        </a>
+      </div>
+    </template>
+
+  <Aside></Aside>
+  
   <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <!-- Carte d'anniversaire -->
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -66,9 +87,13 @@
       </div>
     </div>
   </div>
+</AuthenticatedLayout>
 </template>
 
 <script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head } from "@inertiajs/vue3";
+import Aside from '../Aside.vue';
 import { ref } from "vue";
 
 // Data pour gérer le message personnalisé et l'état du modal
