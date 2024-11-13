@@ -178,7 +178,7 @@ const formatDate = (date) => {
                 <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif;">
                   🎉 Bienvenue dans votre Tableau de Bord d'Anniversaire ! 🎉
                 </h1>
-            
+
                 <!-- Section des anniversaires du jour -->
                 <div class="mb-6">
                   <h2 class="text-2xl font-semibold mb-2">Anniversaires à venir</h2>
@@ -221,7 +221,7 @@ const formatDate = (date) => {
                       </div>
                       <div class="flex flex-col items-center p-4">
                         <img class="w-20 h-20 mb-3 rounded-full shadow-lg"
-                          :src="birthday.user.profilePicture" 
+                          :src="birthday.user.profilePicture"
                           :alt="'Profile image of ' + birthday.user.name" />
                         <h5 class="mb-1 text-lg font-medium text-gray-900 dark:text-white">{{ birthday.user.name }}</h5>
                         <span class="text-sm text-gray-500 dark:text-gray-400">{{ formatDate(birthday.date) }}</span>
@@ -235,20 +235,20 @@ const formatDate = (date) => {
                   </div>
              </div>
                   </div>
-            
+
                   <!-- Souhaiter un bon anniversaire -->
-                  <div class="text-center mt-8">
+                  <!-- <div class="text-center mt-8">
                     <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif;">🎂 Qui garde son âme d'enfant ne vieillit jamais. Pensez à vos proches ! 🎂</h2>
-                  </div>
+                  </div> -->
                 </div>
-        
+
     </AuthenticatedLayout>
 </template>
 
 <style scoped>
 @font-face {
     font-family: 'Charme';
-    src: url('./fonts/Charm-Regular.ttf.ttf') format('truetype'); 
+    src: url('./fonts/Charm-Regular.ttf.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

@@ -47,7 +47,7 @@ class SendBirthdayReminders extends Command
     /**
      * Envoie un email de rappel pour un anniversaire donné.
      *
-     * @param \App\Models\Birthday $birthday
+     * @param \App\Models\Birthdays $birthday
      */
     private function sendBirthdayReminder($birthday)
     {

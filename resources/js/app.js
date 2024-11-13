@@ -4,18 +4,9 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
-import { InertiaProgress } from '@inertiajs/progress';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { InertiaProgress } from '@inertiajs/progress';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
-InertiaProgress.init();
-
-// createInertiaApp({
-//     resolve: name => require(`./Pages/${name}.vue`),
-//     setup({ el, App, props }) {
-//       createApp({ render: () => h(App, props) }).mount(el);
-//     },
-//   });
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

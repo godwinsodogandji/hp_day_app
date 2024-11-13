@@ -36,7 +36,7 @@ public function showUpcomingBirthdays()
             'date' => $birthday->date,
             'user' => [
                 'name' => $birthday->user->name,
-                'profile_picture' => $birthday->user->profile_picture, // Assurez-vous que 'profile_picture' existe
+                'profile_picture' => $birthday->user->profile_picture, 
             ],
         ];
     });
