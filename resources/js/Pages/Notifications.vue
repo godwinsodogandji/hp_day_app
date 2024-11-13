@@ -82,8 +82,6 @@ const deleteNotification = async () => {
 
       <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6" style="height: 750px">
         <h1 class="text-3xl font-bold mb-4 text-center" style="font-family: 'Charme', sans-serif">🎉 Notifications 🎉</h1>
-
-        <h2 class="text-2xl font-bold ms-12" style="font-family: 'Charme', sans-serif">Nouveaux</h2>
         <div class="flex justify-center items-center w-full h-full">
           <div class="relative w-4/5 max-w-full overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-4/5">
             <ul class="list-none p-0 m-0">
@@ -122,7 +120,7 @@ const deleteNotification = async () => {
     </div>
 
     <!-- Modal de Confirmation -->
-    <div v-if="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+    <div v-if="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-30 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-6 w-96">
         <h2 class="text-lg font-bold mb-4">Confirmer la suppression</h2>
         <p>Êtes-vous sûr de vouloir supprimer cette notification ?</p>
@@ -133,10 +131,6 @@ const deleteNotification = async () => {
       </div>
     </div>
 
-    <!-- Souhaiter un bon anniversaire -->
-    <div class="text-center mt-8">
-      <h2 class="text-xl font-semibold" style="font-family: 'Charme', sans-serif">🎂 Ajouter un ami pour lui souhaiter un Joyeux Anniversaire ! 🎂</h2>
-    </div>
   </AuthenticatedLayout>
 </template>
 
