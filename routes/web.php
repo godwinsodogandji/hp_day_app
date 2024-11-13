@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/mail', [EmailsController::class, 'index'])->name('email.birthday');
+Route::get('/mail', [EmailsController::class, 'index'])->name('mail');
 
 Route::get('/card1', [EmailsController::class, 'card1']);
 Route::get('/card2', [EmailsController::class, 'card2']);

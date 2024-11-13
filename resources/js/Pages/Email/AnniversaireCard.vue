@@ -21,14 +21,12 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     name: 'AnniversaryCard',
   }
   </script>
-  
+
   <style scoped>
-  /* Vous pouvez personnaliser les styles ici si nécessaire */
   </style>
-  
